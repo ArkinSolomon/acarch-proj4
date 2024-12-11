@@ -59,6 +59,7 @@ public class ReorderBuffer {
         if (retiree.isComplete()) {
             if (retiree.getWriteReg() > 0) {
                 simulator.regs.setReg(retiree.getWriteReg(), retiree.getWriteValue());
+                simulator.regs.setSlotForReg(retiree.getWriteReg(), -1);
             }
             shouldAdvance = true;
         }
@@ -106,6 +107,8 @@ public class ReorderBuffer {
         ROBEntry newEntry = new ROBEntry(this);
         buff[rearQ] = newEntry;
         newEntry.copyInstData(inst, rearQ);
+
+        setTagForReg(inst.regDest, inst.regDestTag);
 
         rearQ = (rearQ + 1) % size;
     }
