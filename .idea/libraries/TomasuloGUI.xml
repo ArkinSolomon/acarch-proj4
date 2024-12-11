@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="TomasuloGUI">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/dist/TomasuloGUI.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
