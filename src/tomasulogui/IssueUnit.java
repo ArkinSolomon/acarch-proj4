@@ -59,30 +59,6 @@ public class IssueUnit {
         issuedInstruction = IssuedInst.createIssuedInst(inst);
         issuedInstruction.pc = currPc;
 
-        simulator.getROB().updateInstForIssue(issuedInstruction);
-
-//        if (issuedInstruction.regSrc1 == 0) {
-//            issuedInstruction.regSrc1Tag = -1;
-//            issuedInstruction.regSrc1Value = 0;
-//            issuedInstruction.regSrc1Valid = true;
-//            System.out.println("Src1 set, R0");
-//        }
-//
-//        if (!issuedInstruction.isImmediate()) {
-//            issuedInstruction.regSrc2Tag = simulator.getROB().getTagForReg(issuedInstruction.regSrc2);
-//            issuedInstruction.regSrc2Valid = false;
-//            System.out.println("Src2 set, not immediate instruction");
-//        } else if (issuedInstruction.regSrc2 == 0) {
-//            issuedInstruction.regSrc2Tag = -1;
-//            issuedInstruction.regSrc2Value = 0;
-//            issuedInstruction.regSrc2Valid = true;
-//            System.out.println("Src2 set, R0");
-//        } else if (issuedInstruction.isImmediate()) {
-//            issuedInstruction.regSrc2Value = issuedInstruction.getImmediate();
-//            issuedInstruction.regSrc2Valid = true;
-//            System.out.println("Src2 set, immediate instruction");
-//        }
-
         if (issuedInstruction.regSrc1Used) {
             if (issuedInstruction.regSrc1 == 0) {
                 issuedInstruction.regSrc1Value = 0;
@@ -93,6 +69,7 @@ public class IssueUnit {
         }
 
         if (issuedInstruction.regSrc2Used) {
+            System.out.println("src 2 used");
             if (issuedInstruction.regSrc2 == 0) {
                 issuedInstruction.regSrc2Value = 0;
                 issuedInstruction.regSrc2Valid = true;
@@ -102,11 +79,13 @@ public class IssueUnit {
         }
 
         if (issuedInstruction.regDestUsed) {
-            System.out.println("Reg dest : " + issuedInstruction.regDest);
+            System.out.println("Reg dest: " + issuedInstruction.regDest);
             issuedInstruction.regDestTag = simulator.getROB().getTagForReg(issuedInstruction.regDest);
         }
 
-        if (fu.acceptIssue(issuedInstruction)) {
+        if (fu.canAcceptIssue()) {
+            simulator.getROB().updateInstForIssue(issuedInstruction);
+            fu.acceptIssue(issuedInstruction);
             System.out.println("Instruction accepted");
             simulator.setPC(currPc + 4);
         }

@@ -389,10 +389,19 @@ public class PipelineSimulator {
       cdb.setDataValid(false);
 
       // hint: start with divider, and give it first chance of getting CDB
-      getDivider().execCycle(cdb);
-      getMult().execCycle(cdb);
-      getALU().execCycle(cdb);
-      getBranchUnit().execCycle(cdb);
+
+      divider.tryWriteBack(cdb);
+      multiplier.tryWriteBack(cdb);
+      alu.tryWriteBack(cdb);
+      branchUnit.tryWriteBack(cdb);
+
+      getROB().readCDB(cdb);
+
+      divider.snoopCDB(cdb);
+      multiplier.snoopCDB(cdb);
+      alu.snoopCDB(cdb);
+      branchUnit.snoopCDB(cdb);
+//      loader.execCycle(cdb);
     }
 
     public static void main(String[] args) {

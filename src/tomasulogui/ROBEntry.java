@@ -62,11 +62,13 @@ public class ROBEntry {
   public void copyInstData(IssuedInst inst, int frontQ) {
     instPC = inst.getPC();
     inst.setRegDestTag(frontQ);
+    writeReg = inst.getRegDest();
 
     // TODO - This is a long and complicated method, probably the most complex
     // of the project.  It does 2 things:
     // 1. update the instruction, as shown in 2nd line of code above
     // 2. update the fields of the ROBEntry, as shown in the 1st line of code above
+    System.out.println("inst to " + frontQ);
 
   }
 }

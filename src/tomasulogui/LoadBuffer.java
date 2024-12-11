@@ -91,7 +91,8 @@ public class LoadBuffer implements IssuableUnit {
     canWriteback = false;
   }
 
-  public boolean isReservationStationAvail() {
+  @Override
+  public boolean canAcceptIssue() {
     for (int i=0; i < BUFFER_SIZE; i++) {
       if (buff[i] == null) {
         return true;
@@ -100,7 +101,8 @@ public class LoadBuffer implements IssuableUnit {
     return false;
   }
 
-  public boolean acceptIssue(IssuedInst inst) {
+  @Override
+  public void acceptIssue(IssuedInst inst) {
     int slot;
     for (slot=0; slot < BUFFER_SIZE; slot++) {
      if (buff[slot] == null) {
@@ -109,14 +111,12 @@ public class LoadBuffer implements IssuableUnit {
    }
 
    if (slot == BUFFER_SIZE) {
-//     throw new MIPSException("Loader accept issue: slot not available");
-     return false;
+     throw new MIPSException("Loader accept issue: slot not available");
    }
 
    LoadEntry entry = new LoadEntry();
    buff[slot] = entry;
 
    entry.loadInst (inst);
-   return true;
   }
 }
