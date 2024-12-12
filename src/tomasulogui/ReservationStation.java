@@ -51,11 +51,13 @@ public class ReservationStation {
         if (cdb.getDataTag() == tag1) {
             data1Valid = true;
             data1 = cdb.getDataValue();
+            tag1 = -1;
         }
 
         if (cdb.getDataTag() == tag2) {
             data2Valid = true;
             data2 = cdb.getDataValue();
+            tag2 = -1;
         }
     }
 
@@ -71,7 +73,8 @@ public class ReservationStation {
         tag1 = inst.regSrc1Tag;
         tag2 = inst.regSrc2Tag;
         destTag = inst.regDestTag;
-        data1 = data2 = 0;
+        data1 = inst.regSrc1Value;
+        data2 = inst.regSrc2Value;
         data1Valid = inst.regSrc1Valid;
         data2Valid = inst.regSrc2Valid;
 

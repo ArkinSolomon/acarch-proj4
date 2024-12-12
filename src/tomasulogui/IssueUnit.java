@@ -8,7 +8,7 @@ public class IssueUnit {
         simulator = sim;
     }
 
-    public void execCycle() {
+    public void execCycle(CDB cdb) {
         int currPc = simulator.getPC();
         Instruction inst = simulator.getMemory().getInstAtAddr(currPc);
         IssuableUnit fu = null;
@@ -69,14 +69,24 @@ public class IssueUnit {
                 issuedInstruction.regSrc1Valid = true;
             } else {
                 issuedInstruction.regSrc1Tag = simulator.getROB().getTagForReg(issuedInstruction.regSrc1);
+
                 if (issuedInstruction.regSrc1Tag == -1) {
                     issuedInstruction.regSrc1Value = simulator.getROB().getDataForReg(issuedInstruction.regSrc1);
                     issuedInstruction.regSrc1Valid = true;
+                    System.out.println("src1 " + issuedInstruction.regSrc1Value);
+                } else if (cdb.getDataValid() && cdb.getDataTag() == issuedInstruction.regSrc1Tag) {
+                    issuedInstruction.regSrc1Value = cdb.getDataValue();
+                    issuedInstruction.regSrc1Valid = true;
+                    issuedInstruction.regSrc1Tag = -1;
                 }
             }
         }
 
-        if (issuedInstruction.regSrc2Used) {
+        if (issuedInstruction.isImmediate()) {
+            issuedInstruction.regSrc2Value = issuedInstruction.getImmediate();
+            issuedInstruction.regSrc2Valid = true;
+            System.out.println("immediate " + issuedInstruction.regSrc2Value + " " + issuedInstruction.getOpcode());
+        } else if (issuedInstruction.regSrc2Used) {
             System.out.println("src 2 used " + issuedInstruction.regSrc2);
             if (issuedInstruction.regSrc2 == 0) {
                 issuedInstruction.regSrc2Value = 0;
@@ -86,6 +96,10 @@ public class IssueUnit {
                 if (issuedInstruction.regSrc2Tag == -1) {
                     issuedInstruction.regSrc2Value = simulator.getROB().getDataForReg(issuedInstruction.regSrc2);
                     issuedInstruction.regSrc2Valid = true;
+                }else if (cdb.getDataValid() && cdb.getDataTag() == issuedInstruction.regSrc2Tag) {
+                    issuedInstruction.regSrc2Value = cdb.getDataValue();
+                    issuedInstruction.regSrc2Valid = true;
+                    issuedInstruction.regSrc2Tag = -1;
                 }
             }
         }

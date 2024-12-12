@@ -34,6 +34,19 @@ public class LoadBuffer implements IssuableUnit {
     return writeData;
   }
 
+  public void tryWriteBack(CDB cdb) {
+    if (cdb.getDataValid() || !requestWriteback) {
+      return;
+    }
+
+    requestWriteback = false;
+    cdb.setDataValue(writeData);
+    cdb.setDataTag(writeTag);
+    cdb.setDataValid(true);
+    canWriteback = true;
+    System.out.println("Loader writing tag " + writeTag + " to cdb, data: " + writeData);
+  }
+
   public void squashAll() {
     for (int i = 0; i < BUFFER_SIZE; i++) {
       buff[i] = null;

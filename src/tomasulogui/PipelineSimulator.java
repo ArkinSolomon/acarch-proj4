@@ -306,7 +306,7 @@ public class PipelineSimulator {
         loader.execCycle(cdb);
 
         // this updates PC, so no call from here for that
-        issue.execCycle();
+        issue.execCycle(cdb);
 
         instExec++;
       }
@@ -394,6 +394,7 @@ public class PipelineSimulator {
       multiplier.tryWriteBack(cdb);
       alu.tryWriteBack(cdb);
       branchUnit.tryWriteBack(cdb);
+      loader.tryWriteBack(cdb);
 
       getROB().readCDB(cdb);
 

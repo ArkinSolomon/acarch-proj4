@@ -25,13 +25,13 @@ public abstract class FunctionalUnit implements IssuableUnit {
             if (rs == null) {
                 continue;
             }
+
             rs.snoop(cdb);
         }
     }
 
     public void tryWriteBack(CDB cdb) {
         if (cdb.getDataValid() || writeTag < 0) {
-            System.out.println("CDB DataValid: " + cdb.getDataValid() + " tag: " + writeTag);
             return;
         }
 
@@ -94,9 +94,6 @@ public abstract class FunctionalUnit implements IssuableUnit {
         if (station1Avail) {
             stations[1] = new ReservationStation(simulator);
             stations[1].loadInst(inst);
-            return;
         }
-
-        return;
     }
 }

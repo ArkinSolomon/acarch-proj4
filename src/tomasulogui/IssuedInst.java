@@ -143,7 +143,7 @@ public class IssuedInst {
     }
 
     public boolean isImmediate() {
-      return getOpcode() == IssuedInst.INST_TYPE.ADDI || getOpcode() == IssuedInst.INST_TYPE.ANDI || getOpcode() == IssuedInst.INST_TYPE.ORI || getOpcode() == IssuedInst.INST_TYPE.XORI || getOpcode() == INST_TYPE.LOAD || getOpcode() == INST_TYPE.STORE;
+      return getOpcode() == IssuedInst.INST_TYPE.ADDI || getOpcode() == IssuedInst.INST_TYPE.ANDI || getOpcode() == IssuedInst.INST_TYPE.ORI || getOpcode() == IssuedInst.INST_TYPE.XORI || getOpcode() == INST_TYPE.LOAD || getOpcode() == INST_TYPE.STORE || getOpcode() == INST_TYPE.SLL || getOpcode() == INST_TYPE.SRL || getOpcode() == INST_TYPE.SRA;
     }
 
     public static IssuedInst createIssuedInst(Instruction inst) {
