@@ -113,9 +113,9 @@ public class IssueUnit {
         }
 
         if (fu.canAcceptIssue()) {
+            System.out.println("Instruction can be accepted: " + issuedInstruction.getOpcode());
             simulator.getROB().updateInstForIssue(issuedInstruction);
             fu.acceptIssue(issuedInstruction);
-            System.out.println("Instruction accepted");
             simulator.setPC(currPc + 4);
         }
     }
